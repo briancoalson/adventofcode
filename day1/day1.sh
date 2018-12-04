@@ -1,1 +1,1 @@
-cat advent-day-1.input
+cat $1 

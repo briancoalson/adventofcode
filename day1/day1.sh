@@ -1,6 +1,10 @@
 nums=$(cat $1)
 
+answer=0
+
 for num in $nums
 do
-	echo "> [$num]"
+	answer=$(($answer + $num))
 done
+
+echo $answer

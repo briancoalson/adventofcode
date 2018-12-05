@@ -30,14 +30,21 @@ character_difference() {
 	echo $diff
 }
 
-
+print_same_characters() {
+	same_characters=""
+	for (( i = 0; i < ${#1}; i++ )); do
+		if [[ ${1:$i:1} == ${2:$i:1} ]]; then
+			same_characters="$same_characters${1:$i:1}"
+		fi
+	done
+	echo $same_characters
+}
 
 for id in $boxIDs; do
 	for id2 in $boxIDs; do
 		if [[ $(character_difference $id $id2) -eq 1 ]]; then
-			echo "Match!"
-			echo $id
-			echo $id2
+			echo "Strings that are off by 1 found!  Here are the same characters:"
+			print_same_characters $id $id2
 			break 2
 		fi
 	done

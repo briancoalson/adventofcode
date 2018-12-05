@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 awk '{ sum += $1 } END { print sum }' $1
 
 # read -d '/n' -a frequencies < $1
@@ -25,44 +25,23 @@ twice=false
 
 count=0
 
+declare -A sums
+
 while [[ "$twice" != true ]]; do
 	echo $count
 	count=$(($count + 1))
 	for freq in $frequencies
 	do :
 		sum=$(($sum + $freq))
-		# echo $sum
-		# echo $sums
-		# echo ${#sums[@]}
 
-		# echo ${sums[@]} | tr ' ' '/n' | sort -u | wc -l
-		# if [[ (${#sums[@]}) = ("${sums[@]}" | tr ' ' '/n' | sort -u | wc -l) ]]; then
-		# 	echo $sum
-		# 	twice=$TRUE
-		# 	break
-		# fi
 		if [[ $sum -gt -1 ]]; then
 			formatted_sum="+$sum "
 		else
 			sums="$sum "
 		fi
+
 		
-		# echo $formatted_sum
-		
-		case "$sums" in
-			*"$formatted_sum"* ) 
-				echo "found!"
-				echo $sum
-				twice=true;;
-		esac
-
-		if [[ $sum -gt -1 ]]; then
-			sums="$sums +$sum"
-		else
-			sums="$sums $sum"
-		fi
-
-
+				
 	# Will work, will also take a million years
 		# for i in "${sums[@]}"
 		# do :
@@ -74,9 +53,13 @@ while [[ "$twice" != true ]]; do
 		# 	fi
 		# done
 
-		if [[ "$twice" = true ]]; then
+		if [[ -n "${sums[$sum]}" ]]; then
+			echo $sum
+			twice=true
 			break
 		fi
+
+		sums[$sum]+="1"
 
 		# sums=("${sums[@]}" "$sum")
 

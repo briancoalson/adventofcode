@@ -3,16 +3,16 @@
 #part 1
 boxIDs=$(cat input.txt)
 
-# twice=0
-# thrice=0
+twice=0
+thrice=0
 
-# for id in $boxIDs; do
-# 	tmp=$(echo $id | fold -w1 | sort | uniq -c)
-# 	twice=$(($twice + $(echo $tmp | grep 2 | wc -l)))
-# 	thrice=$(($thrice + $(echo $tmp | grep 3 | wc -l)))
-# done
+for id in $boxIDs; do
+	tmp=$(echo $id | fold -w1 | sort | uniq -c)
+	twice=$(($twice + $(echo $tmp | grep 2 | wc -l)))
+	thrice=$(($thrice + $(echo $tmp | grep 3 | wc -l)))
+done
 
-# echo $(($twice * $thrice))
+echo "Part 1 Solution: $(($twice * $thrice))"
 
 
 #part 2
@@ -43,7 +43,7 @@ print_same_characters() {
 for id in $boxIDs; do
 	for id2 in $boxIDs; do
 		if [[ $(character_difference $id $id2) -eq 1 ]]; then
-			echo "Strings that are off by 1 found!  Here are the same characters:"
+			echo "Strings that are off by 1 found!  Here are the same characters that solve Part 2:"
 			print_same_characters $id $id2
 			break 2
 		fi

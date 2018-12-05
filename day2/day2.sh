@@ -30,13 +30,15 @@ character_difference() {
 	echo $diff
 }
 
+
+
 for id in $boxIDs; do
 	for id2 in $boxIDs; do
 		if [[ $(character_difference $id $id2) -eq 1 ]]; then
 			echo "Match!"
 			echo $id
 			echo $id2
-			break
+			break 2
 		fi
 	done
 done

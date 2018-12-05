@@ -1,58 +1,19 @@
 #!/usr/bin/env bash
+#Part 1
 awk '{ sum += $1 } END { print sum }' $1
 
-# read -d '/n' -a frequencies < $1
-# this is fucked, but I don't know why, seems better than cat into an array
-# echo ${#frequencies[@]}
-
-# num_frequencies=$(cat $1 | wc -l)
-# echo $num_frequencies
-
-# twice=$FALSE
-# # while !($twice); do
-# 	for freq in $frequencies; 
-# 	do
-# 		echo $freq
-# 	done
-# # done
-
-
+#Part 2
 frequencies=$(cat $1)
 
 sum=0
-
 twice=false
-
-count=0
-
 declare -A sums
 
 while [[ "$twice" != true ]]; do
-	echo $count
-	count=$(($count + 1))
 	for freq in $frequencies
 	do :
 		sum=$(($sum + $freq))
-
-		if [[ $sum -gt -1 ]]; then
-			formatted_sum="+$sum "
-		else
-			sums="$sum "
-		fi
-
 		
-				
-	# Will work, will also take a million years
-		# for i in "${sums[@]}"
-		# do :
-		# 	if [ "$i" -eq "$sum" ]
-		# 	then
-		# 		echo $sum
-		# 		twice=true
-		# 		break
-		# 	fi
-		# done
-
 		if [[ -n "${sums[$sum]}" ]]; then
 			echo $sum
 			twice=true
@@ -60,12 +21,5 @@ while [[ "$twice" != true ]]; do
 		fi
 
 		sums[$sum]+="1"
-
-		# sums=("${sums[@]}" "$sum")
-
 	done
 done
-
-
-
-# echo ${#sums[@]}

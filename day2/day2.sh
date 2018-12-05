@@ -3,8 +3,6 @@
 #part 1
 boxIDs=$(cat input.txt)
 
-printf '%s\n' "${frequencies[@]}"
-
 twice=0
 thrice=0
 
@@ -16,4 +14,4 @@ done
 
 echo $(($twice * $thrice))
 
-#break the line up into column then do sort | uniq -c
+#part 2

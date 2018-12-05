@@ -19,26 +19,70 @@ awk '{ sum += $1 } END { print sum }' $1
 
 frequencies=$(cat $1)
 
-declare -a sums
-
 sum=0
 
-for freq in $frequencies
-do :
-	sum=$(($sum + $freq))
-	echo $sum
+twice=false
 
-#WTF?!  Why does $frequencies work but not $sums?
-	for i in "${sums[@]}"
+count=0
+
+while [[ "$twice" != true ]]; do
+	echo $count
+	count=$(($count + 1))
+	for freq in $frequencies
 	do :
-		if [[ $i -eq $sum ]]
-		then
-			echo "help!"
+		sum=$(($sum + $freq))
+		# echo $sum
+		# echo $sums
+		# echo ${#sums[@]}
+
+		# echo ${sums[@]} | tr ' ' '/n' | sort -u | wc -l
+		# if [[ (${#sums[@]}) = ("${sums[@]}" | tr ' ' '/n' | sort -u | wc -l) ]]; then
+		# 	echo $sum
+		# 	twice=$TRUE
+		# 	break
+		# fi
+		if [[ $sum -gt -1 ]]; then
+			formatted_sum="+$sum "
+		else
+			sums="$sum "
 		fi
+		
+		# echo $formatted_sum
+		
+		case "$sums" in
+			*"$formatted_sum"* ) 
+				echo "found!"
+				echo $sum
+				twice=true;;
+		esac
+
+		if [[ $sum -gt -1 ]]; then
+			sums="$sums +$sum"
+		else
+			sums="$sums $sum"
+		fi
+
+
+	# Will work, will also take a million years
+		# for i in "${sums[@]}"
+		# do :
+		# 	if [ "$i" -eq "$sum" ]
+		# 	then
+		# 		echo $sum
+		# 		twice=true
+		# 		break
+		# 	fi
+		# done
+
+		if [[ "$twice" = true ]]; then
+			break
+		fi
+
+		# sums=("${sums[@]}" "$sum")
+
 	done
-
-	sums=("${sums[@]}" "$sum")
-
 done
 
-echo ${#sums[@]}
+
+
+# echo ${#sums[@]}

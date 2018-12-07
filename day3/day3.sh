@@ -29,17 +29,21 @@ done
 
 #let's mark up the cloth for cutting, index being used for height, in case we want to print out the results
 
-starting_left_edge0=808
-width0=12
-starting_top_edge0=550
-height0=22
+count=0
 
-# echo "${cloth[@]:$starting_top_edge0:$height0}"
+for point in $starting_points; do
+	echo "On iteration $count"
+	IFS=, read starting_left_edge starting_top_edge <<< $point
+	for size in $sizes; do
+		echo "inner loop is alive"
+		IFS=x read width height <<< $size
 
-#claim cloth (should this be a function?)
-for (( i = $starting_top_edge0; i < $(($starting_top_edge0 + $height0)); i++ )); do
-	cloth[$i]="${cloth[$i]:0:$((starting_left_edge0-1))}$(echo ${cloth[$i]:$starting_left_edge0:$width0} | tr 1 x | tr . 1)${cloth[$i]:$((starting_left_edge0+$width0+1))}"
-	# echo "hi"
+#this is where the magic happens
+		for (( i = $starting_top_edge; i < $(($starting_top_edge + $height)); i++ )); do
+			cloth[$i]="${cloth[$i]:0:$((starting_left_edge-1))}$(echo ${cloth[$i]:$starting_left_edge:$width} | tr 1 x | tr . 1)${cloth[$i]:$((starting_left_edge+$width+1))}"
+		done
+
+	done
 done
 
 echo ${cloth[550]}

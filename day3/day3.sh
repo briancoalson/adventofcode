@@ -34,4 +34,12 @@ width0=12
 starting_top_edge0=550
 height0=22
 
-echo "${cloth[@]:$starting_top_edge0:$height0}"
+# echo "${cloth[@]:$starting_top_edge0:$height0}"
+
+#claim cloth (should this be a function?)
+for (( i = $starting_top_edge0; i < $(($starting_top_edge0 + $height0)); i++ )); do
+	cloth[$i]="${cloth[$i]:0:$((starting_left_edge0-1))}$(echo ${cloth[$i]:$starting_left_edge0:$width0} | tr 1 x | tr . 1)${cloth[$i]:$((starting_left_edge0+$width0+1))}"
+	# echo "hi"
+done
+
+echo ${cloth[550]}

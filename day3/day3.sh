@@ -1,49 +1,39 @@
 #!/usr/bin/env bash
 
-#stop trying to optimize this, but check out $ echo 'foo.c:41:switch (color) {' | { IFS=: read file line text && echo "$file | $line | $text"; }. Maybe put this in a while loop to read the whole file into array values?
-#also might want to get rid of all the cuts and use regex instead
+#1 @ 808,550: 12x22
 
-starting_points=$(cut -d" " -f3 input.txt | cut -d: -f1)
-
-max_right_edge=$(printf '%s\n' "${starting_points[@]}" | cut -d, -f1 | sort -n | tail -n1)
-max_bottom_edge=$(printf '%s\n' "${starting_points[@]}" | cut -d, -f2 | sort -n | tail -n1)
-
-#get the size dimentions using IFS=x read width height or:
-#width=${sizes%x*}
-#height=${sizes#*x}
-#https://stackoverflow.com/questions/10520623/how-to-split-one-string-into-multiple-variables-in-bash-shell
-sizes=$(cut -d" " -f4 input.txt)
-
-max_width=$(printf '%s\n' "${sizes[@]}" | cut -dx -f1 | sort -n | tail -n1)
-max_height=$(printf '%s\n' "${sizes[@]}" | cut -dx -f2 | sort -n | tail -n1)
-
-cloth_width=$(($max_right_edge + $max_width))
-cloth_height=$(($max_bottom_edge + $max_height))
-
-echo $cloth_width
-echo $cloth_height
-
-for (( i = 0; i < $((cloth_height+1)); i++ )); do
-	cloth[$i]=$(printf ".%.0s" $(seq 1 $cloth_width))
-done
-
-#let's mark up the cloth for cutting, index being used for height, in case we want to print out the results
-
+declare -A -i cloth
 count=0
 
-for point in $starting_points; do
-	echo "On iteration $count"
-	IFS=, read starting_left_edge starting_top_edge <<< $point
-	for size in $sizes; do
-		echo "inner loop is alive"
-		IFS=x read width height <<< $size
+while IFS='' read -r line || [[ -n "$line" ]]; do
 
-#this is where the magic happens
-		for (( i = $starting_top_edge; i < $(($starting_top_edge + $height)); i++ )); do
-			cloth[$i]="${cloth[$i]:0:$((starting_left_edge-1))}$(echo ${cloth[$i]:$starting_left_edge:$width} | tr 1 x | tr . 1)${cloth[$i]:$((starting_left_edge+$width+1))}"
+	# line=$(cat input.txt | tail -n1)
+
+	echo $count
+	count=$(($count+1))
+
+	IFS=' ' read id at start size <<< $line
+	IFS=',' read left top <<< $start
+	top=${top::-1}
+	IFS='x' read width height <<< $size
+
+	for (( x = $left; x < $(($left+$width)); x++ )); do
+		for (( y = $top; y < $(($top+$height)); y++ )); do
+			if [[ ${cloth[$x,$y]} == '' ]]; then
+				cloth[$x,$y]=1
+			else
+				cloth[$x,$y]=$((${cloth[$x,$y]} + 1))
+			fi
 		done
-
 	done
+    
+done < input.txt
+
+answer=0
+for claim in "${cloth[@]}"; do
+	if [[ $claim -gt 1 ]]; then
+		answer=$(($answer+1))
+	fi
 done
 
-echo ${cloth[550]}
+echo $answer

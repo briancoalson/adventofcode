@@ -32,7 +32,7 @@ for claim in "${cloth[@]}"; do
 	fi
 done
 
-echo $answer
+echo "Number of overlapping squares: $answer"
 
 while IFS='' read -r line || [[ -n "$line" ]]; do
 
@@ -47,13 +47,13 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 		for (( y = $top; y < $(($top+$height)); y++ )); do
 			if [[ ${cloth[$x,$y]} -ne 1 ]]; then
 				overlaps=true
-				break 3
+				break 2
 			fi
 		done
 	done
 
 	if [[ "$overlaps" = false ]]; then
-		echo $id
+		echo "This cloth id does not overlap: $id"
 	fi
     
 done < input.txt

@@ -34,6 +34,8 @@ done
 
 echo "Number of overlapping squares: $answer"
 
+declare overlaps=true
+
 while IFS='' read -r line || [[ -n "$line" ]]; do
 
 	IFS=' ' read id at start size <<< $line
@@ -54,6 +56,7 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 
 	if [[ "$overlaps" = false ]]; then
 		echo "This cloth id does not overlap: $id"
+		break
 	fi
     
 done < input.txt

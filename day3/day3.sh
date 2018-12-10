@@ -7,11 +7,6 @@ count=0
 
 while IFS='' read -r line || [[ -n "$line" ]]; do
 
-	# line=$(cat input.txt | tail -n1)
-
-	echo $count
-	count=$(($count+1))
-
 	IFS=' ' read id at start size <<< $line
 	IFS=',' read left top <<< $start
 	top=${top::-1}
@@ -23,6 +18,7 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 				cloth[$x,$y]=1
 			else
 				cloth[$x,$y]=$((${cloth[$x,$y]} + 1))
+				overlaps=true
 			fi
 		done
 	done
@@ -37,3 +33,27 @@ for claim in "${cloth[@]}"; do
 done
 
 echo $answer
+
+while IFS='' read -r line || [[ -n "$line" ]]; do
+
+	IFS=' ' read id at start size <<< $line
+	IFS=',' read left top <<< $start
+	top=${top::-1}
+	IFS='x' read width height <<< $size
+
+	overlaps=false
+
+	for (( x = $left; x < $(($left+$width)); x++ )); do
+		for (( y = $top; y < $(($top+$height)); y++ )); do
+			if [[ ${cloth[$x,$y]} -ne 1 ]]; then
+				overlaps=true
+				break 3
+			fi
+		done
+	done
+
+	if [[ "$overlaps" = false ]]; then
+		echo $id
+	fi
+    
+done < input.txt

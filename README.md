@@ -25,3 +25,5 @@ Using associative arrays to create a 2D like array.
 https://stackoverflow.com/questions/16487258/how-to-declare-2d-array-in-bash
 Declaring the array as integer values:
 https://www.computerhope.com/unix/bash/declare.htm
+Useful for understanding comparison operators:
+http://www.tldp.org/LDP/abs/html/comparison-ops.html

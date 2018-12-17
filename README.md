@@ -31,3 +31,9 @@ http://www.tldp.org/LDP/abs/html/comparison-ops.html
 # Day 4
 Really had to learn a bit about parameter expansion as a way of searching and manipulating strings:
 https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+How to iterate over an associative array:
+https://stackoverflow.com/questions/3112687/how-to-iterate-over-associative-arrays-in-bash
+Echoing newlines in bash:
+https://stackoverflow.com/questions/8467424/echo-newline-in-bash-prints-literal-n
+Reading line into multiple variables:
+https://stackoverflow.com/questions/10520623/how-to-split-one-string-into-multiple-variables-in-bash-shell

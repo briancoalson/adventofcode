@@ -70,3 +70,15 @@ for (( i = 0; i < 60; i++ )); do
 done
 
 echo -e "ID:$sleepyWorker\nMinute: $minute\nAnswer: $(($sleepyWorker * $minute))"
+
+
+max=0
+#Part 2, which guard is asleep most frequently during same minute?
+for id_time in "${!asleepDuringMinute[@]}"; do
+	if [[ ${asleepDuringMinute[$id_time]} -gt $max ]]; then
+		max=${asleepDuringMinute[$id_time]}
+		frequent_sleeper=$id_time
+	fi
+done
+
+echo $frequent_sleeper

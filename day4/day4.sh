@@ -69,7 +69,7 @@ for (( i = 0; i < 60; i++ )); do
 	fi
 done
 
-echo -e "ID:$sleepyWorker\nMinute: $minute\nAnswer: $(($sleepyWorker * $minute))"
+echo -e "ID:$sleepyWorker\nMinute: $minute\nPart 1 Answer: $(($sleepyWorker * $minute))"
 
 
 max=0
@@ -81,4 +81,5 @@ for id_time in "${!asleepDuringMinute[@]}"; do
 	fi
 done
 
-echo $frequent_sleeper
+IFS=',' read ID minute <<< $frequent_sleeper
+echo -e "ID:$ID\nMinute: $minute\nPart 2 Answer: $(($ID*$minute))"

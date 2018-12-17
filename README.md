@@ -27,3 +27,7 @@ Declaring the array as integer values:
 https://www.computerhope.com/unix/bash/declare.htm
 Useful for understanding comparison operators:
 http://www.tldp.org/LDP/abs/html/comparison-ops.html
+
+# Day 4
+Really had to learn a bit about parameter expansion as a way of searching and manipulating strings:
+https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
